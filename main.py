@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 import ta
 from fastapi import FastAPI, HTTPException
+import os
+import uvicorn
 
 app = FastAPI(title="Tanvir Trader 99 Zone Cloud Backend")
 
@@ -69,3 +71,7 @@ def check_signal(password: str, symbol: str = DEFAULT_PAIR):
         return {"pair": formatted_symbol, "signal": "WAIT", "reason": "No setup"}
     except Exception as e:
         return {"pair": formatted_symbol, "signal": "ERROR", "reason": str(e)}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
